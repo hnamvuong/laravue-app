@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -97,5 +98,20 @@ class UserController extends Controller
         $user->delete();
 
         return ['message' => 'User Deleted Successfully!'];
+    }
+
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth('api')->user();
+        if ($request->photo) {
+            $name = time() . '.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+
+            Image::make($request->photo)->save(public_path('img/profile/') . $name);
+        }
     }
 }
