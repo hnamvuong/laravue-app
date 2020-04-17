@@ -25,7 +25,6 @@ const toast = swal.mixin({
 
 window.toast = toast;
 
-
 window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
@@ -41,7 +40,6 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '3px'
 });
-
 
 let routes = [
     {path: '/dashboard', component: require('./components/Dashboard').default},

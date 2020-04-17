@@ -2123,6 +2123,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2137,33 +2141,15 @@ __webpack_require__.r(__webpack_exports__);
       })
     };
   },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  },
   methods: {
     getProfilePhoto: function getProfilePhoto() {
       return this.form.photo.length > 200 ? this.form.photo : "img/profile/" + this.form.photo;
     },
-    updateProfile: function updateProfile(e) {
-      var _this = this;
-
-      var file = e.target.files[0];
-      var reader = new FileReader();
-
-      if (file['size'] < 2111775) {
-        reader.onloadend = function (file) {
-          _this.form.photo = reader.result;
-        };
-
-        reader.readAsDataURL(file);
-      } else {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: 'You are uploading a large file'
-        });
-        this.form.photo = '';
-      }
-    },
     updateInfo: function updateInfo() {
-      var _this2 = this;
+      var _this = this;
 
       this.$Progress.start();
 
@@ -2174,10 +2160,32 @@ __webpack_require__.r(__webpack_exports__);
       this.form.put('api/profile').then(function () {
         Fire.$emit('AfterCreate');
 
-        _this2.$Progress.finish();
+        _this.$Progress.finish();
       })["catch"](function () {
-        _this2.$Progress.fail();
+        _this.$Progress.fail();
       });
+    },
+    updateProfile: function updateProfile(e) {
+      var _this2 = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var limit = 1024 * 1024 * 2;
+
+      if (file['size'] > limit) {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'You are uploading a large file'
+        });
+        return false;
+      }
+
+      reader.onloadend = function (file) {
+        _this2.form.photo = reader.result;
+      };
+
+      reader.readAsDataURL(file);
     }
   },
   created: function created() {
@@ -61121,11 +61129,11 @@ var render = function() {
             },
             [
               _c("h3", { staticClass: "widget-user-username" }, [
-                _vm._v(_vm._s(_vm.form.name))
+                _vm._v(_vm._s(this.form.name))
               ]),
               _vm._v(" "),
               _c("h5", { staticClass: "widget-user-desc" }, [
-                _vm._v(_vm._s(_vm.form.type))
+                _vm._v(_vm._s(this.form.type))
               ])
             ]
           ),
@@ -61181,8 +61189,11 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("name")
+                            },
                             attrs: {
-                              type: "email",
+                              type: "",
                               id: "inputName",
                               placeholder: "Name"
                             },
@@ -61229,6 +61240,9 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("email")
+                            },
                             attrs: {
                               type: "email",
                               id: "inputEmail",
@@ -61258,9 +61272,9 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-sm-2 control-label",
-                          attrs: { for: "inputBio" }
+                          attrs: { for: "inputExperience" }
                         },
-                        [_vm._v("Bio")]
+                        [_vm._v("Experience")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -61277,7 +61291,11 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { id: "inputBio", placeholder: "Bio" },
+                            class: { "is-invalid": _vm.form.errors.has("bio") },
+                            attrs: {
+                              id: "inputExperience",
+                              placeholder: "Experience"
+                            },
                             domProps: { value: _vm.form.bio },
                             on: {
                               input: function($event) {
@@ -61302,7 +61320,7 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-sm-2 control-label",
-                          attrs: { for: "inputPhoto" }
+                          attrs: { for: "photo" }
                         },
                         [_vm._v("Profile Photo")]
                       ),
@@ -61310,11 +61328,7 @@ var render = function() {
                       _c("div", { staticClass: "col-sm-12" }, [
                         _c("input", {
                           staticClass: "form-input",
-                          attrs: {
-                            type: "file",
-                            name: "photo",
-                            id: "inputPhoto"
-                          },
+                          attrs: { type: "file", name: "photo" },
                           on: { change: _vm.updateProfile }
                         })
                       ])
@@ -61325,11 +61339,11 @@ var render = function() {
                         "label",
                         {
                           staticClass: "col-sm-12 control-label",
-                          attrs: { for: "inputPassword" }
+                          attrs: { for: "password" }
                         },
                         [
                           _vm._v(
-                            "Password (using old password if\n                                        not changing)"
+                            "Password (leave empty if\n                                        not changing)"
                           )
                         ]
                       ),
@@ -61348,9 +61362,12 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("password")
+                            },
                             attrs: {
                               type: "password",
-                              id: "inputPassword",
+                              id: "password",
                               placeholder: "Password"
                             },
                             domProps: { value: _vm.form.password },
