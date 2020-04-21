@@ -7,17 +7,13 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
-import moment from "moment";
-
-import {Form, HasError, AlertError} from 'vform';
+import moment from 'moment';
+import { Form, HasError, AlertError } from 'vform';
 
 import Gate from "./Gate";
-
 Vue.prototype.$gate = new Gate(window.user);
 
 import swal from 'sweetalert2'
-
 window.swal = swal;
 
 const toast = swal.mixin({
@@ -36,11 +32,9 @@ Vue.component(AlertError.name, AlertError);
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 import VueRouter from 'vue-router'
-
 Vue.use(VueRouter);
 
 import VueProgressBar from 'vue-progressbar'
-
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
@@ -60,7 +54,7 @@ const router = new VueRouter({
     routes // short for `routes: routes`
 });
 
-Vue.filter('upText', function (text) {
+Vue.filter('upText', function(text){
     return text.charAt(0).toUpperCase() + text.slice(1)
 });
 
@@ -68,16 +62,13 @@ Vue.filter('formatDate', function (created) {
     return moment(created).format('MMMM Do YYYY');
 });
 
-window.Fire = new Vue();
+window.Fire =  new Vue();
 
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component(
     'passport-clients',
@@ -107,5 +98,13 @@ Vue.component(
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data:{
+        search: ''
+    },
+    methods:{
+        searchit: _.debounce(() => {
+            Fire.$emit('searching');
+        },1000)
+    }
 });
