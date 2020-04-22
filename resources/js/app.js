@@ -46,6 +46,7 @@ let routes = [
     {path: '/users', component: require('./components/Users').default},
     {path: '/developer', component: require('./components/Developer').default},
     {path: '/profile', component: require('./components/Profile').default},
+    {path: '/invoice', component: require('./components/Invoice').default},
     {path: '*', component: require('./components/NotFound').default},
 ];
 
@@ -105,9 +106,6 @@ const app = new Vue({
     methods:{
         searchit: _.debounce(() => {
             Fire.$emit('searching');
-        },1000),
-        printme() {
-            window.print();
-        }
+        },1000)
     }
 });
