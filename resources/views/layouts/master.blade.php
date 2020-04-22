@@ -57,7 +57,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                    <p>{{Auth::user()->type}}</p>
                 </div>
             </div>
 
@@ -98,6 +97,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </router-link>
                         </li>
                     @endcan
+                    <li class="nav-item">
+                        <router-link to="/invoice" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>Invoice</p>
+                        </router-link>
+                    </li>
                     <li class="nav-item">
                         <router-link to="/profile" class="nav-link">
                             <i class="nav-icon fas fa-user orange"></i>
