@@ -99,8 +99,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     @endcan
                     <li class="nav-item">
                         <router-link to="/invoice" class="nav-link">
-                            <i class="nav-icon fas fa-file-invoice"></i>
-                            <p>Invoice</p>
+                            <i class="nav-icon fas fa-file-export cyan"></i>
+                            <p>Export</p>
                         </router-link>
                     </li>
                     <li class="nav-item">
@@ -149,7 +149,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             Anything you want
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2020 <a href="https://www.facebook.com/vuong.trinhquoc.hn/">VuongTQ</a>.</strong> All
+        <strong>Copyright &copy; 2020 <a href="https://www.facebook.com/vuong.trinhquoc.hn/" target="_blank">VuongTQ</a>.</strong> All
         rights reserved.
     </footer>
 </div>
